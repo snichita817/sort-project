@@ -34,7 +34,7 @@ void countingRadix(int arr[], int size, int place) {
     for (int i = 0; i < size; i++)
         countR[(arr[i] / place) % 10]++;
 
-    // Calculate cumulative count
+    // Calculating the cumulative count
     for (int i = 1; i < maxi; i++)
         countR[i] += countR[i - 1];
 
@@ -52,18 +52,18 @@ void countingRadix(int arr[], int size, int place) {
 
 }
 
-// Main function of RadixSort
+// Main function for RadixSort
 void radixsort(int arr[], int size) {
 
-    int maxi = getMax(arr, size);
+    int maxi = getMax(arr, size); // get maximum element
 
-    // Apply counting sort to sort elements based on place value.
+    // Apply counting sort to sort elements
     for (int place = 1; maxi / place > 0; place *= 10)
         countingRadix(arr, size, place);
 }
 
-/******                                  MERGE SORT                                  ******/
-// Merge two subarrays L and M into arr
+///*******                                 MERGE SORT                                       *******///
+// Merge two subarrays L and M into main array (arr)
 void merge(int arr[], int p, int q, int r) {
 
     int n1 = q - p + 1;
@@ -93,7 +93,7 @@ void merge(int arr[], int p, int q, int r) {
         k++;
     }
 
-    // Insert the remaining elements in the array (if any left)
+    // If any left, insert the remaining elements in the array
     while (i < n1) {
         arr[k] = L[i];
         i++;
@@ -107,10 +107,9 @@ void merge(int arr[], int p, int q, int r) {
     }
 }
 
-// Divide the arr into two subarrays, sort them and merge them
+// Divide the arr into two subarrays, sort and merge them
 void mergeSort(int arr[], int l, int r) {
     if (l < r) {
-        // m is the point where the arr is divided into two subarrays
         int m = l + (r - l) / 2;
 
         mergeSort(arr, l, m);
@@ -119,9 +118,9 @@ void mergeSort(int arr[], int l, int r) {
     }
 }
 
-/******                                  SHELL SORT                                  ******/
+///*******                                  SHELL SORT                                      *******///
 void shellSort(int arr[], int n) {
-    // Rearrange elements at n/2, n/4, n/8 ... intervals (Shell original sequence)
+    // Rearrange elements at n/2, n/4, n/8 ... (Shell original sequence)
     for (int in = n / 2; in > 0; in /= 2)
     {
         for (int i = in; i < n; i += 1)
@@ -136,12 +135,12 @@ void shellSort(int arr[], int n) {
         }
     }
 }
-/******                                  HEAP SORT                                   ******/
+///*******                                  HEAP SORT                                       *******///
 
 // Function that transforms heap to a max heap
 void heapify(int arr[], int n, int i)
 {
-    int largest = i;
+    int largest = i; // index of the root of the heap
     int left = 2 * i + 1; // odd elements
     int right = 2 * i + 2; // even elements
 
@@ -179,7 +178,7 @@ void heapSort(int arr[], int n) {
     }
 }
 
-/******                                  SELECTION SORT                      ******/
+///*******                                  SELECTION SORT                                  *******///
 void selectionSort(int array[], int size) {
     for (int step = 0; step < size - 1; step++) {
         int mini = step;
@@ -189,52 +188,37 @@ void selectionSort(int array[], int size) {
                 mini = i;
         }
 
-        // put min at the correct position
+        // Put minimum at the correct position
         swap(array[mini], array[step]);
     }
 }
 
 
-/******                                   COUNTING SORT           ******/
+///*******                                  COUNTING SORT                                   *******///
 void countSort(int array[], int size) {
-    // The size of count must be at least the (max+1) but
-    // we cannot assign declare it as int count(max+1) in C++ as
-    // it does not support dynamic memory allocation.
-    // So, its size is provided statically.
-    //int maxi = array[0];
-
     // Find the largest element in the array
     int maxi = getMax(array, size);
 
-    //// Find the largest element of the array
-    //for (int i = 1; i < size; i++) {
-    //    if (array[i] > maxi)
-    //        maxi = array[i];
-    //}
-
-    // Initialize count array with all zeros.
-    for (int i = 0; i <= maxi; ++i) {
+    // Initialize countR array with all 0
+    for (int i = 0; i <= maxi; ++i)
         countR[i] = 0;
-    }
 
-    // Store the count of each element
-    for (int i = 0; i < size; i++) {
+    // Store the frequency for each element in the array
+    for (int i = 0; i < size; i++)
         countR[array[i]]++;
-    }
 
-    // Store the cummulative count of each array
+    // Calculate the cummulative count of the elements in the array
     for (int i = 1; i <= maxi; i++) {
         countR[i] += countR[i - 1];
     }
 
-    // Find the index of each element of the original array in count array, and
-    // place the elements in output array
+    // Place the elements in sorted order in the output array
     for (int i = size - 1; i >= 0; i--) {
         output[countR[array[i]] - 1] = array[i];
         countR[array[i]]--;
     }
 
-    // Copy the sorted elements into original array
+    // Copy the sorted elements into the original array
     for (int i = 0; i < size; i++) {
         array[i] = output[i];
     }
@@ -248,7 +232,7 @@ void printArray(int arr[], int size) {
     cout << endl;
 }
 
-// array generator
+// Array generator
 void arrGen(int n, int t)
 {
     srand(time(NULL));
@@ -256,13 +240,14 @@ void arrGen(int n, int t)
         arrMain[i] = rand() % t;
 }
 
-// make a copy for the array
+// Make a copy for the array
 void arrCopy(int n)
 {
     for (int i = 0; i < n; i++)
         arr_copy[i] = arrMain[i];
 }
 
+// Verify if sorting algorithm actually sorted the array
 bool verifySort(int n)
 {
     for (int i = 0; i < n - 1; i++)
@@ -306,7 +291,7 @@ void sortAlg(int n)
     else
     {
         cout << "RadixSort failed. Exiting application...";
-        //break;
+        return;
     }
     ///*******                                  #########                                   *******///
     arrCopy(n);
@@ -333,7 +318,7 @@ void sortAlg(int n)
     else
     {
         cout << "MergeSort failed. Exiting application...";
-        //break;
+        return;
     }
 
     ///*******                                  #########                                   *******///
@@ -363,7 +348,7 @@ void sortAlg(int n)
     else
     {
         cout << "ShellSort failed. Exiting application...";
-        //break;
+        return;
     }
     ///*******                                  #########                                   *******///
 
@@ -392,12 +377,12 @@ void sortAlg(int n)
     else
     {
         cout << "HeapSort failed. Exiting application...";
-        //break;
+        return;
     }
     ///*******                                  #########                                   *******///
 
     arrCopy(n);
-    ///*******                                  COUNTING SORT                                    *******///
+    ///*******                                  COUNTING SORT                               *******///
     wcts = system_clock::now();
     countSort(arr_copy, n);
     wctduration = (system_clock::now() - wcts);
@@ -420,7 +405,7 @@ void sortAlg(int n)
     else
     {
         cout << "CountingSort failed. Exiting application...";
-        //break;
+        return;
     }
     ///*******                                  #########                                   *******///
 
@@ -443,13 +428,12 @@ void sortAlg(int n)
     wctduration = (system_clock::now() - wcts);
     dur += wctduration.count();
 
-
     if (verifySort(n))
         cout << "C++ sorting algorithm: " << fixed << setprecision(8) << dur/3 << " seconds." << endl;
     else
     {
         cout << "C++ sorting algorithm failed. Exiting application...";
-        //break;
+        return;
     }
 }
 
@@ -482,8 +466,9 @@ int main()
             {
                 cout << "Tests for an array of length " << n << " with elements between 0 and " << t << "." << endl;
                 ///*******                                RANDOMIZED ARRAY                              *******///
-                arrGen(n, t);
 
+                arrGen(n, t);
+                cout << "Tests for array with randomized elements:" << endl;
                 sortAlg(n);
                 ///*******                                  #########                                   *******///
 
